@@ -1,5 +1,7 @@
 # Senhas
 
+Créditos ao prof° Bruno Zarpelão, autor do exercício.
+
 Desenvolva um sistema que vai controlar a emissão de senhas para atendimento em uma repartição pública. O sistema deve permitir as seguintes opções para manipulação da fila composta pelas senhas emitidas:
 
 – Emitir nova senha: o sistema deve emitir um valor inteiro aleatório para a senha e posicioná-lo no final da fila;
