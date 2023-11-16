@@ -1,4 +1,8 @@
-package Exemplos.InterfaceGrafica;
+//Exemplo de botão simples utilizando Swing
+
+// Instruções para utilizar o Swing no IntelliJ:
+// 1. não me lembro -_- (não precisa de configs)
+package Exemplos.InterfaceGrafica.Swing;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
