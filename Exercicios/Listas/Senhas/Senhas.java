@@ -1,3 +1,5 @@
+package Exercicios.Listas.Senhas;
+
 import java.util.ArrayList;
 import java.security.SecureRandom;
 
