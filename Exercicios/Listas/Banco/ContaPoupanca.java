@@ -15,7 +15,7 @@ public class ContaPoupanca extends ContaBancaria {
 
     private static int quantidadeContas = 0;
 
-    public void ContaPoupanca(){
+    public ContaPoupanca(){
         quantidadeContas++;
     }
 
@@ -28,7 +28,7 @@ public class ContaPoupanca extends ContaBancaria {
 
     public void cadastrar(String cliente){
         // De 5555556 a 9999999
-        int conta = 5555556 + quantidadeContas;
+        int conta = 5555555 + quantidadeContas;
 
         if(conta > 9999999){
             System.out.println("Limite de contas poupança atingido");
@@ -36,7 +36,7 @@ public class ContaPoupanca extends ContaBancaria {
             this.setCliente(cliente);
             this.setNumeroConta(String.format("%07d", conta));
 
-            System.out.println("Conta poupança de númmero " + String.format("%07d", conta) + "\nregistrada no titular " + cliente);
+            System.out.println("Conta poupança de número " + String.format("%07d", conta) + "\nregistrada no titular " + cliente);
         }
     }
 

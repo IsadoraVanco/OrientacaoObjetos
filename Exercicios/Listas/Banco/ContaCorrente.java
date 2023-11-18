@@ -14,11 +14,7 @@ public class ContaCorrente extends ContaBancaria{
     private static int quantidadeContas = 0;
     private BigDecimal limite = new BigDecimal(1000);
 
-    public void ContaCorrente(){
-        quantidadeContas++;
-    }
-    public void ContaCorrente(String cliente){
-        setCliente(cliente);
+    public ContaCorrente(){
         quantidadeContas++;
     }
 
