@@ -10,11 +10,13 @@ Inclua os seguintes métodos na classe ContaBancaria:
 • sacar: não permitir que o saldo fique menor que zero;
 • depositar;
  */
+import com.sun.source.tree.ReturnTree;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class ContaBancaria {
-    private String cliente;
+    private String cliente = "";
     private String numeroConta;
     private BigDecimal saldo = new BigDecimal(0);
 
@@ -34,6 +36,10 @@ public class ContaBancaria {
         this.numeroConta = numeroConta;
     }
 
+    public String getNumeroConta(){
+        return this.numeroConta;
+    }
+
     public void sacar(BigDecimal valor){
         if(this.saldo.subtract(valor).compareTo(BigDecimal.ZERO) < 0){
             System.out.println("Valor indisponível no saldo. Operação não aprovada");
@@ -45,7 +51,16 @@ public class ContaBancaria {
     }
 
     public void depositar(BigDecimal valor){
-        this.saldo = this.saldo.add(valor);
-        System.out.println("Novo saldo: R$" + this.saldo.setScale(2, RoundingMode.HALF_UP).toString());
+        //valor <= 0
+        if(valor.compareTo(BigDecimal.ZERO) < 0 || valor.compareTo(BigDecimal.ZERO) == 0){
+            System.out.println("Valor inválido para depósito");
+        }else{
+            this.saldo = this.saldo.add(valor);
+            System.out.println("Novo saldo: R$" + this.saldo.setScale(2, RoundingMode.HALF_UP).toString());
+        }
+    }
+
+    public void extrato(){
+        System.out.println("Saldo atual: R$" + this.saldo.setScale(2, RoundingMode.HALF_UP).toString());
     }
 }

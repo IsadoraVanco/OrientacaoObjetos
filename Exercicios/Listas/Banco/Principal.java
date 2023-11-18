@@ -8,134 +8,157 @@ Faça uma classe Principal que permita ao usuário realizar as seguintes tarefas
 • Atualizar uma conta poupança com o seu rendimento;
 • Depositar um determinado valor na conta (poupança ou corrente);
 • Mostrar o saldo de uma conta (poupança ou corrente);
-
-Desafio: implementar busca de uma conta pelo seu número usando o método
-indexOf(Object o) do LinkedList (Dica: olhar na documentação do Java como o
-indexOf(Object o) é implementado).
  */
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Scanner;
 
 public class Principal {
 
     public static void imprimeMenu(){
-        System.out.println("***********************************");
-        System.out.println("**   BANCO DO COMPUTEIRO FELIZ   **");
-        System.out.println("**                               **");
-        System.out.println("**  Escolha uma opção:           **");
-        System.out.println("**                               **");
-        System.out.println("** [0] Cadastrar nova conta      **");
-        System.out.println("** [1] Sacar                     **");
-        System.out.println("** [2] Extrato                   **");
-        System.out.println("** [3] Depositar                 **");
-        System.out.println("** [4] Atualizar conta poupança  **");
-        System.out.println("** [5] Encerrar                  **");
-        System.out.println("***********************************");
-    }
-
-    public static int leInteiro(String texto){
-        int input;
-        Scanner scan = new Scanner(System.in);
-
-        System.out.print(texto);
-        input = scan.nextInt();
-
-        return input;
-    }
-
-    public static double leDouble(String texto){
-        double input;
-        Scanner scan = new Scanner(System.in);
-
-        System.out.print(texto);
-        input = scan.nextFloat();
-
-        return input;
-    }
-
-    public static String leString(String texto){
-        String input;
-        Scanner scan = new Scanner(System.in);
-
-        System.out.print(texto);
-        input = scan.nextLine();
-
-        return input;
+        System.out.println("************************************");
+        System.out.println("**   BANCO DO COMPUTEIRO FELIZ    **");
+        System.out.println("**                                **");
+        System.out.println("**  Escolha uma opção:            **");
+        System.out.println("**                                **");
+        System.out.println("** [0] Cadastrar nova conta       **");
+        System.out.println("** [1] Sacar                      **");
+        System.out.println("** [2] Extrato                    **");
+        System.out.println("** [3] Depositar                  **");
+        System.out.println("** [4] Atualizar conta poupança   **");
+        System.out.println("** [5] Encerrar                   **");
+        System.out.println("************************************");
     }
 
     public static boolean ehPoupanca(){
-        String resposta;
+        String resposta = Tools.leString("**  É conta Poupança? (S/N): ");
 
-        Scanner scan = new Scanner(System.in);
-
-        System.out.print("**  É conta Poupança? (S/N): ");
-        resposta = scan.nextLine();
-
-        return Objects.equals(resposta, "S");
+        return Objects.equals(resposta.toUpperCase(), "S");
     }
 
     public static void main(String[] args){
-        ContaBancaria poupanca = new ContaPoupanca();
-        ContaBancaria corrente = new ContaCorrente();
-        ContaBancaria tipoConta = poupanca;
+        ArrayList<ContaPoupanca> poupanca = new ArrayList<ContaPoupanca>();
+        ArrayList<ContaCorrente> corrente = new ArrayList<ContaCorrente>();
 
         int comando = 0;
+        int numeroConta = 0;
+        int indice;
 
         do{
             //Imprime o menu de opções
             imprimeMenu();
 
             //Lê o comando
-            comando = leInteiro("**  Comando: ");
+            comando = Tools.leInteiro("**  Comando: ");
 
-            //Verifica se é conta Poupança ou Corrente
-            if(comando == 0 || comando == 2 || comando == 3){
-                if(ehPoupanca()){
-                    tipoConta = poupanca;
-                }else{
-                    tipoConta = corrente;
+            indice = -1;
+
+            //Procura o número da conta
+            if(comando >= 1 && comando < 4){
+                numeroConta = Tools.leInteiro("** Qual o número da conta? ");
+
+                if(numeroConta > 5555555){ //Poupança
+                    //Procura a conta na lista de contas poupança
+                    for (int i = 0; i < poupanca.size(); i++) {
+                        String conta = poupanca.get(i).getNumeroConta();
+
+                        if (Objects.equals(conta, String.format("%07d", numeroConta))) {
+                            indice = i;
+                            break;
+                        }
+                    }
+                }else{ //Corrente
+                    //Procura a conta na lista de contas corrente
+                    for (int i = 0; i < corrente.size(); i++) {
+                        String conta = corrente.get(i).getNumeroConta();
+
+                        if (Objects.equals(conta, String.format("%07d", numeroConta))) {
+                            indice = i;
+                            break;
+                        }
+                    }
+                }
+
+                if(indice == -1){
+                    System.out.println(">> Conta não encontrada");
+                    continue;
                 }
             }
 
             switch (comando) {
                 case 0 -> { //Cadastrar nova conta
-                    //Pergunta o nome do cliente e número da conta
-                    String cliente = leString("** Qual o nome para a conta? ");
-                    String conta = leString("** Qual o número da conta? ");
+                    //Pergunta o nome do cliente
+                    String cliente = Tools.leString("** Qual o nome para a conta? ");
 
-                    tipoConta.setCliente(cliente);
-                    tipoConta.setNumeroConta(conta);
+                    //Verifica se é conta Poupança ou Corrente
+                    if(ehPoupanca()){
+                        ContaPoupanca novaConta = new ContaPoupanca();
+                        novaConta.cadastrar(cliente);
 
-                    System.out.println("Conta " + conta + " cadastrada com o titular " + cliente);
+                        poupanca.add(novaConta);
+                    }else{
+                        ContaCorrente novaConta = new ContaCorrente();
+                        novaConta.cadastrar(cliente);
+
+                        corrente.add(novaConta);
+                    }
                 }
                 case 1 -> { //Sacar
+                    // Apenas número da conta
 
-                    if(ehPoupanca()){
-                        double valor = leDouble("** Valor para sacar: R$");
+                    double valor = Tools.leDouble("** Valor para sacar: R$");
 
-                        poupanca.sacar(new BigDecimal(valor));
-                    }else{
-                        double valor = leDouble("** Valor para sacar: R$");
-
-                        corrente.sacar(new BigDecimal(valor));
+                    if(numeroConta > 5555555){ //Poupança
+                        poupanca.get(indice).sacar(BigDecimal.valueOf(valor));
+                    }else { //Corrente
+                        corrente.get(indice).sacar(BigDecimal.valueOf(valor));
                     }
                 }
                 case 2 -> { //Extrato
-                    System.out.println("Saldo da conta: R$" + tipoConta.getSaldo().toString());
+                    // Apenas número da conta
+
+                    if(numeroConta > 5555555){ //Poupança
+                        poupanca.get(indice).extrato();
+                    }else { //Corrente
+                        corrente.get(indice).extrato();
+                    }
                 }
                 case 3 -> { //Depositar
-                    double valor = 0;
-                    while(valor <= 0){
-                        valor = leDouble("** Valor para depósito: R$");
-                    }
+                    // Número e tipo da conta
 
-                    tipoConta.depositar(new BigDecimal(valor));
+                    double valor;
+
+                    if(ehPoupanca()){ //Apenas para fins de simulação
+                        valor = Tools.leDouble("** Valor para depósito (poupança): R$");
+                        poupanca.get(indice).depositar(BigDecimal.valueOf(valor));
+                    }else{
+                        valor = Tools.leDouble("** Valor para depósito (corrente): R$");
+                        corrente.get(indice).depositar(BigDecimal.valueOf(valor));
+                    }
                 }
                 case 4 -> { //Atualizar conta poupança
-                    double rendimento = 0.02;
+                    // Apenas o número da conta
 
-                    ((ContaPoupanca) poupanca).calcularNovoSaldo(rendimento);
+                    numeroConta = Tools.leInteiro("** Qual o número da conta? ");
+
+                    //Procura a conta na lista de contas poupança
+                    for (int i = 0; i < poupanca.size(); i++) {
+                        String conta = poupanca.get(i).getNumeroConta();
+
+                        if (Objects.equals(conta, String.format("%07d", numeroConta))) {
+                            indice = i;
+                            break;
+                        }
+                    }
+
+                    if(indice == -1){
+                        System.out.println(">> Conta poupança não encontrada");
+                        continue;
+                    }
+
+                    double rendimento = Tools.leDouble("** Qual o rendimento (em decimal)? ");
+
+                    poupanca.get(indice).atualizarSaldo(rendimento);
                 }
                 case 5 -> {
                     //Encerra o sistema
