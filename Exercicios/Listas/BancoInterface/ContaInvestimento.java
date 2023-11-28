@@ -24,7 +24,7 @@ public class ContaInvestimento implements ContaBancaria, Tributavel{
 
     private String cliente;
     private String numeroConta;
-    private BigDecimal saldo;
+    private BigDecimal saldo = BigDecimal.ZERO;
 
     private static int quantidadeContas = 0;
 
@@ -61,7 +61,7 @@ public class ContaInvestimento implements ContaBancaria, Tributavel{
     }
 
     public void cadastrar(String cliente){
-        int conta = quantidadeContas++;
+        int conta = quantidadeContas;
 
         this.cliente = cliente;
         this.numeroConta = String.format("%07d", conta);
@@ -78,16 +78,17 @@ public class ContaInvestimento implements ContaBancaria, Tributavel{
 
     public BigDecimal calcularTaxaAdministracao(double taxaRendimento){
         BigDecimal rendimento = this.saldo.multiply(BigDecimal.valueOf(taxaRendimento));
+        rendimento = rendimento.multiply(BigDecimal.valueOf(0.01));
         System.out.println("A Taxa Administração (1%) é correspondente a R$" + rendimento.setScale(2, RoundingMode.HALF_UP).toString());
 
-        return rendimento.multiply(BigDecimal.valueOf(0.01));
+        return rendimento;
     }
 
     public BigDecimal calcularTributo(BigDecimal taxaRendimento){
         BigDecimal rendimento = this.saldo.multiply(taxaRendimento);
+        rendimento = rendimento.multiply(BigDecimal.valueOf(0.005));
         System.out.println("O Tributo (0,5%) é correspondente a R$" + rendimento.setScale(2, RoundingMode.HALF_UP).toString());
 
-
-        return rendimento.multiply(BigDecimal.valueOf(0.005));
+        return rendimento;
     }
 }

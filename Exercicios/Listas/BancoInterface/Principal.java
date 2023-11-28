@@ -1,5 +1,4 @@
 package Exercicios.Listas.BancoInterface;
-
 //Aluna: Isadora Vanço
 /*
 Faça uma classe Principal que permita ao usuário realizar as seguintes tarefas:
@@ -10,7 +9,7 @@ Faça uma classe Principal que permita ao usuário realizar as seguintes tarefas
 • Mostrar o saldo de uma conta;
 • Calcular os tributos de uma conta;
 • Calcula a taxa de administração de uma conta investimento
-*/
+ */
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -80,7 +79,7 @@ public class Principal {
             imprimeMenu();
 
             //Lê o comando
-            comando = Tools.leInteiro("**  Comando: ");
+            comando = Tools.leInteiro("** Comando: ");
 
             tipoConta = 0;
 
@@ -203,5 +202,6 @@ public class Principal {
             }
 
         }while(comando != 0);
+
     }
 }

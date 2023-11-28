@@ -19,7 +19,7 @@ public class ContaPoupanca implements ContaBancaria {
 
     private String cliente;
     private String numeroConta;
-    private BigDecimal saldo;
+    private BigDecimal saldo = BigDecimal.ZERO;
     private int diaRendimento = 0;
 
     private static int quantidadeContas = 0;
@@ -65,7 +65,7 @@ public class ContaPoupanca implements ContaBancaria {
     }
 
     public void cadastrar(String cliente){
-        int conta = quantidadeContas++;
+        int conta = quantidadeContas;
 
         this.cliente = cliente;
         this.numeroConta = String.format("%07d", conta);
