@@ -1,5 +1,4 @@
 package Exercicios.Listas.BancoInterface;
-
 /*
 Crie uma interface ContaBancaria.
 Inclua os seguintes métodos:
@@ -14,4 +13,6 @@ public interface ContaBancaria {
     public void depositar(double valor);
 
     public void extrato();
+
+    public String getNumeroConta();
 }

@@ -26,6 +26,16 @@ public class ContaInvestimento implements ContaBancaria, Tributavel{
     private String numeroConta;
     private BigDecimal saldo;
 
+    private static int quantidadeContas = 0;
+
+    public ContaInvestimento(){
+        quantidadeContas++;
+    }
+
+    public String getNumeroConta(){
+        return this.numeroConta;
+    }
+
     public void sacar(double valor){
         if(this.saldo.subtract(BigDecimal.valueOf(valor)).compareTo(BigDecimal.ZERO) < 0){
             System.out.println("Valor indisponível no saldo. Operação não aprovada");
@@ -50,6 +60,15 @@ public class ContaInvestimento implements ContaBancaria, Tributavel{
         System.out.println("Saldo atual: R$" + this.saldo.setScale(2, RoundingMode.HALF_UP).toString());
     }
 
+    public void cadastrar(String cliente){
+        int conta = quantidadeContas++;
+
+        this.cliente = cliente;
+        this.numeroConta = String.format("%07d", conta);
+
+        System.out.println("Conta de investimento de número " + String.format("%07d", conta) + "\nregistrada no titular " + cliente);
+    }
+
     public void calcularNovoSaldo(double taxaRendimento){
         BigDecimal novoSaldo = this.saldo.add(this.saldo.multiply(BigDecimal.valueOf(taxaRendimento)));
 
@@ -59,12 +78,15 @@ public class ContaInvestimento implements ContaBancaria, Tributavel{
 
     public BigDecimal calcularTaxaAdministracao(double taxaRendimento){
         BigDecimal rendimento = this.saldo.multiply(BigDecimal.valueOf(taxaRendimento));
+        System.out.println("A Taxa Administração (1%) é correspondente a R$" + rendimento.setScale(2, RoundingMode.HALF_UP).toString());
 
         return rendimento.multiply(BigDecimal.valueOf(0.01));
     }
 
     public BigDecimal calcularTributo(BigDecimal taxaRendimento){
         BigDecimal rendimento = this.saldo.multiply(taxaRendimento);
+        System.out.println("O Tributo (0,5%) é correspondente a R$" + rendimento.setScale(2, RoundingMode.HALF_UP).toString());
+
 
         return rendimento.multiply(BigDecimal.valueOf(0.005));
     }

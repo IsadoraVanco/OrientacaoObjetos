@@ -61,18 +61,13 @@ public class ContaCorrente implements ContaBancaria{
     }
 
     public void cadastrar(String cliente){
-        // De 0 a 5555555
-        int conta = quantidadeContas;
+        int conta = quantidadeContas++;
 
-        if(conta > 5555555){
-            System.out.println("Limite de contas poupança atingido");
-        }else{
-            this.cliente = cliente;
-            this.numeroConta = String.format("%07d", conta);
+        this.cliente = cliente;
+        this.numeroConta = String.format("%07d", conta);
 
-            System.out.println("Conta corrente de númmero " + String.format("%07d", conta) + "\nregistrada no titular " + cliente);
-            System.out.println("Você possui um limite de R$" + this.limite.setScale(2, RoundingMode.HALF_UP).toString());
-        }
+        System.out.println("Conta corrente de número " + String.format("%07d", conta) + "\nregistrada no titular " + cliente);
+        System.out.println("Você possui um limite de R$" + this.limite.setScale(2, RoundingMode.HALF_UP).toString());
     }
 
 }

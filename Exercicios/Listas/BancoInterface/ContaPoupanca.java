@@ -65,17 +65,12 @@ public class ContaPoupanca implements ContaBancaria {
     }
 
     public void cadastrar(String cliente){
-        // De 5555556 a 9999999
-        int conta = 5555555 + quantidadeContas;
+        int conta = quantidadeContas++;
 
-        if(conta > 9999999){
-            System.out.println("Limite de contas poupança atingido");
-        }else{
-            this.cliente = cliente;
-            this.numeroConta = String.format("%07d", conta);
+        this.cliente = cliente;
+        this.numeroConta = String.format("%07d", conta);
 
-            System.out.println("Conta poupança de número " + String.format("%07d", conta) + "\nregistrada no titular " + cliente);
-        }
+        System.out.println("Conta poupança de número " + String.format("%07d", conta) + "\nregistrada no titular " + cliente);
     }
 
 }
