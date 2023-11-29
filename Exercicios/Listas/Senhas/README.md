@@ -1,4 +1,4 @@
-# Senhas
+# Exercício 02 - Senhas
 
 Créditos ao prof° Bruno Zarpelão, autor do exercício.
 

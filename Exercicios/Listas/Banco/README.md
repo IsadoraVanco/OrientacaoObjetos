@@ -1,4 +1,4 @@
-# Conta Bancária
+# Exercicio 03 - Conta Bancária
 
 Créditos ao prof° Bruno, autor do exercício.
 
