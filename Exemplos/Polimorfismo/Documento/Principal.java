@@ -1,5 +1,3 @@
-package br.uel.oo;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -22,11 +20,11 @@ public class Principal {
 		
 		
 		while (escolha != -1){
-			System.out.println("Digite a sua opção: 1- cadastrar; 2-visualizar numeros; 3- visualizar órgãos emissores de RGs");
+			System.out.println("Digite a sua opï¿½ï¿½o: 1- cadastrar; 2-visualizar numeros; 3- visualizar ï¿½rgï¿½os emissores de RGs");
 			escolha = scan.nextInt();
 			
 			if (escolha == 1){
-				System.out.println("Digite a sua opção: 1- CPF; 2- RG");
+				System.out.println("Digite a sua opï¿½ï¿½o: 1- CPF; 2- RG");
 				escolha=scan.nextInt();
 				if (escolha == 1){
 					
@@ -52,7 +50,7 @@ public class Principal {
 					String nrRG = 
 							scan.next();
 					
-					System.out.println("Digite o órgão emissor");
+					System.out.println("Digite o ï¿½rgï¿½o emissor");
 					
 					String orgaoEmissor = 
 							scan.next();

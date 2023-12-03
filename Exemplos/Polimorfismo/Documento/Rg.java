@@ -1,5 +1,3 @@
-package br.uel.oo;
-
 public class Rg extends Documento {
 	
 	private String orgaoEmissor;

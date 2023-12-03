@@ -1,5 +1,3 @@
-package br.uel.oo;
-
 public abstract class Documento {
 	
 	private String nrDocumento;
