@@ -6,6 +6,8 @@ public class ContaCorrente extends ContaBancaria{
     private BigDecimal limite = new BigDecimal(1000);;
     private static int quantidadeContas = 0;
 
+    // *** MÉTODOS BÁSICOS ***
+
     public ContaCorrente(){
         quantidadeContas++;
     }
@@ -27,13 +29,13 @@ public class ContaCorrente extends ContaBancaria{
 
     @Override
     public void depositar(double valor){
-        ((ContaBancaria) this).depositar(valor);
+        super.depositar(valor);
         System.out.println("Limite da conta: R$" + this.limite.setScale(2, RoundingMode.HALF_UP).toString());
     }
 
     @Override
     public void extrato(){
-        ((ContaBancaria) this).extrato();
+        super.extrato();
         System.out.println("Limite da conta: R$" + this.limite.setScale(2, RoundingMode.HALF_UP).toString());
     }
 
@@ -43,5 +45,4 @@ public class ContaCorrente extends ContaBancaria{
         System.out.println("Conta corrente de número " + this.getNumeroConta() + "\nregistrada no titular " + cliente);
         System.out.println("Você possui um limite de R$" + this.limite.setScale(2, RoundingMode.HALF_UP).toString());
     }
-
 }

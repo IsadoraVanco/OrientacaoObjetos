@@ -5,16 +5,14 @@ public class ContaInvestimento extends Tributavel{
 
     private static int quantidadeContas = 0;
 
-    // *** CONSTRUTOR E MÉTODOS BÁSICOS ***
+    // *** MÉTODOS BÁSICOS ***
 
     public ContaInvestimento(){
         quantidadeContas++;
     }
 
     public void cadastrar(String cliente){
-        int conta = quantidadeContas;
-
-        this.cadastrar(cliente, conta);
+       this.cadastrar(cliente, quantidadeContas);
 
         System.out.println("Conta de investimento de número " + this.getNumeroConta() + "\nregistrada no titular " + cliente);
     }

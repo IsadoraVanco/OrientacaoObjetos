@@ -6,7 +6,7 @@ public class ContaPoupanca extends ContaBancaria {
     private int diaRendimento = 0;
     private static int quantidadeContas = 0;
 
-    // *** CONSTRUTOR E MÉTODOS BÁSICOS ***
+    // *** MÉTODOS BÁSICOS ***
 
     public ContaPoupanca(){
         quantidadeContas++;

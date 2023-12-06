@@ -38,6 +38,10 @@ public abstract class ContaBancaria {
         this.numeroConta = String.format("%07d", numeroConta);
     }
 
+    public static String converteNumeroConta(int numeroConta){
+        return String.format("%07d", numeroConta);
+    }
+
     // *** GETTERS E SETTERS ***
 
     public String getNumeroConta(){
@@ -50,13 +54,5 @@ public abstract class ContaBancaria {
 
     public void setSaldo(BigDecimal saldo){
         this.saldo = saldo;
-    }
-
-    public void setCliente(String cliente){
-        this.cliente = cliente;
-    }
-
-    public void setNumeroConta(String numeroConta){
-        this.numeroConta = numeroConta;
     }
 }

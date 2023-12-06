@@ -14,7 +14,7 @@ public class Principal {
 
     public static void imprimeMenu(){
         System.out.println("****************************************");
-        System.out.println("**    BANCO DO COMPUTEIRO CANSADO     **");
+        System.out.println("**  BANCO DO COMPUTEIRO TRABALHADOR   **");
         System.out.println("**                                    **");
         System.out.println("** Escolha uma opção:                 **");
         System.out.println("**                                    **");
@@ -44,16 +44,29 @@ public class Principal {
     }
 
     // Procura em uma lista o número da conta
-    public static <T extends ContaBancaria> int procuraConta(ArrayList<T> listaConta, int numeroConta){
+    public static <ContaBancaria> int procuraConta(ArrayList<ContaBancaria> listaConta, int numeroConta, int tipoConta){
         int indice = -1;
+        String numeroContaConvertido = ContaCorrente.converteNumeroConta(numeroConta);
 
         //Procura a conta na lista de contas
         for (int i = 0; i < listaConta.size(); i++) {
-            T conta = listaConta.get(i);
+            ContaBancaria conta = listaConta.get(i);
 
-            if (Objects.equals(conta.getNumeroConta(), String.format("%07d", numeroConta))) {
-                indice = i;
-                break;
+            if(conta instanceof ContaPoupanca && tipoConta == 1){
+                if (Objects.equals(((ContaPoupanca) conta).getNumeroConta(), numeroContaConvertido)) {
+                    indice = i;
+                    break;
+                }
+            }else if(conta instanceof ContaCorrente && tipoConta == 2){
+                if (Objects.equals(((ContaCorrente) conta).getNumeroConta(), numeroContaConvertido)) {
+                    indice = i;
+                    break;
+                }
+            }else if(conta instanceof ContaInvestimento && tipoConta == 3) {
+                if (Objects.equals(((ContaInvestimento) conta).getNumeroConta(), numeroContaConvertido)) {
+                    indice = i;
+                    break;
+                }
             }
         }
 
@@ -61,9 +74,7 @@ public class Principal {
     }
 
     public static void main(String[] args){
-        ArrayList<ContaPoupanca> poupanca = new ArrayList<ContaPoupanca>();
-        ArrayList<ContaCorrente> corrente = new ArrayList<ContaCorrente>();
-        ArrayList<ContaInvestimento> investimento = new ArrayList<ContaInvestimento>();
+        ArrayList<ContaBancaria> contas = new ArrayList<ContaBancaria>();
 
         int comando, tipoConta, numeroConta;
         int  indice = 0;
@@ -85,26 +96,15 @@ public class Principal {
 
             // Le o numero da conta em todos comandos, exceto no cadastro
             if(comando > 1 && comando <= 7){
-                if((tipoConta == 1 || comando == 5) && poupanca.isEmpty()){
-                    System.out.println(">> Não existem contas poupança cadastradas");
-                    continue;
-                }else if(tipoConta == 2 && corrente.isEmpty()){
-                    System.out.println(">> Não existem contas corrente cadastradas");
-                    continue;
-                }else if((tipoConta == 3 || comando == 6 || comando == 7) && investimento.isEmpty()){
-                    System.out.println(">> Não existem contas de investimento cadastradas");
-                    continue;
-                }else{
-                    numeroConta = Tools.leInteiro("** Qual o número da conta? ");
+                if(comando == 5){
+                    tipoConta = 1;
+                }else if(comando == 6 || comando == 7){
+                    tipoConta = 3;
                 }
 
-                if(tipoConta == 1 || comando == 5){ //Poupança
-                    indice = procuraConta(poupanca, numeroConta);
-                }else if(tipoConta == 2){ //Corrente
-                    indice = procuraConta(corrente, numeroConta);
-                }else if(tipoConta == 3 || comando == 6 || comando == 7){ //Conta de investimento
-                    indice = procuraConta(investimento, numeroConta);
-                }
+                numeroConta = Tools.leInteiro("** Qual o número da conta? ");
+
+                indice = procuraConta(contas, numeroConta, tipoConta);
 
                 if(indice < 0){
                     System.out.println(">> Conta não encontrada");
@@ -131,65 +131,44 @@ public class Principal {
 
                     //Verifica o tipo da conta e adiciona na lista
                     if(tipoConta == 1){ //Poupança
+
                         ContaPoupanca novaConta = new ContaPoupanca();
                         novaConta.cadastrar(cliente);
-
-                        poupanca.add(novaConta);
+                        contas.add(novaConta);
                     }else if(tipoConta == 2){ //Corrente
+
                         ContaCorrente novaConta = new ContaCorrente();
                         novaConta.cadastrar(cliente);
-
-                        corrente.add(novaConta);
+                        contas.add(novaConta);
                     }else{ //Conta de investimento
+
                         ContaInvestimento novaConta = new ContaInvestimento();
                         novaConta.cadastrar(cliente);
-
-                        investimento.add(novaConta);
+                        contas.add(novaConta);
                     }
                 }
                 case 2 -> { //Sacar
                     double valor = Tools.leDouble("** Valor para sacar: R$");
 
-                    //Verifica o tipo da conta e saca
-                    if(tipoConta == 1){ //Poupança
-                        poupanca.get(indice).sacar(valor);
-                    }else if(tipoConta == 2){ //Corrente
-                        corrente.get(indice).sacar(valor);
-                    }else{ //Conta de investimento
-                        investimento.get(indice).sacar(valor);
-                    }
+                    contas.get(indice).sacar(valor);
                 }
                 case 3 -> { //Depositar
                     double valor = Tools.leDouble("** Valor para depositar: R$");
 
-                    //Verifica o tipo da conta e deposita
-                    if(tipoConta == 1){ //Poupança
-                        poupanca.get(indice).depositar(valor);
-                    }else if(tipoConta == 2){ //Corrente
-                        corrente.get(indice).depositar(valor);
-                    }else{ //Conta de investimento
-                        investimento.get(indice).depositar(valor);
-                    }
+                    contas.get(indice).depositar(valor);
                 }
                 case 4 -> { //Extrato
 
-                    //Verifica o tipo da conta e mostra o saldo
-                    if(tipoConta == 1){ //Poupança
-                        poupanca.get(indice).extrato();
-                    }else if(tipoConta == 2){ //Corrente
-                        corrente.get(indice).extrato();
-                    }else{ //Conta de investimento
-                        investimento.get(indice).extrato();
-                    }
+                    contas.get(indice).extrato();
                 }
                 case 5 -> { //Atualizar conta poupança
-                    poupanca.get(indice).calcularNovoSaldo(rendimento);
+                    ((ContaPoupanca) contas.get(indice)).calcularNovoSaldo(rendimento);
                 }
                 case 6 -> { //Calcular tributos
-                    investimento.get(indice).calcularTributo(BigDecimal.valueOf(rendimento));
+                    ((ContaInvestimento) contas.get(indice)).calcularTributo(BigDecimal.valueOf(rendimento));
                 }
                 case 7 -> { //Calcular taxa de administração
-                    investimento.get(indice).calcularTaxaAdministracao(rendimento);
+                    ((ContaInvestimento) contas.get(indice)).calcularTaxaAdministracao(rendimento);
                 }
                 default -> {
                     System.out.println(">> Comando inválido. Digite novamente!");
